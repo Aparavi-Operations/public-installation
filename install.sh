@@ -32,7 +32,7 @@ Nerds options:
 EOH
 }
 
-while getopts ":a:c:o:p:l:m:d:v:b:n:u:g:t" options; do
+while getopts ":a:c:o:p:l:m:d:v:b:n:u:g:t:" options; do
     case "${options}" in
         c)
             NODE_META_SERVICE_INSTANCE=${OPTARG}
@@ -120,7 +120,7 @@ fi
 
 function check_t_switch {
 if [[ -z "$GIT_PASSWORD" ]]; then
-    echo "Error: Option '-t' is required for github tocken."
+    echo "Error: Option '-t' is required for github token."
     usage
     exit 1
 fi
