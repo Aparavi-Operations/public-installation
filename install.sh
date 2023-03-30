@@ -111,7 +111,7 @@ fi
 }
 
 function check_g_switch {
-if [[ -z "$APARAVI_PLATFORM_ADDR" ]]; then
+if [[ -z "$GIT_USER" ]]; then
     echo "Error: Option '-g' is required for github user."
     usage
     exit 1
@@ -119,7 +119,7 @@ fi
 }
 
 function check_t_switch {
-if [[ -z "$APARAVI_PLATFORM_ADDR" ]]; then
+if [[ -z "$GIT_PASSWORD" ]]; then
     echo "Error: Option '-t' is required for github tocken."
     usage
     exit 1
@@ -127,8 +127,6 @@ fi
 }
 
 function galaxy_portal {
-    check_g_switch
-    check_t_switch
     git config credential.helper '!f() { sleep 1; echo "username=${GIT_USER}"; echo "password=${GIT_PASSWORD}"; }; f'
     ansible-galaxy install -r roles/requirements-portal.yml
 }
@@ -144,7 +142,8 @@ function galaxy_portal {
             ;;
         platform)
             check_p_switch
-            clone_submodule
+            check_g_switch
+            check_t_switch
             NODE_ANSIBLE_TAGS="-t mysql_server,redis_server,platform"
             ;;
         mysql_only)
