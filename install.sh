@@ -130,10 +130,8 @@ function galaxy_portal {
     local -r GIT_USER="$1"
     local -r GIT_PASSWORD="$2"
     sed -i "s|git+https://github.com/|git+https://${GIT_USER}:${GIT_PASSWORD}@github.com/|g" roles/requirements-portal.yml
-    cat  roles/requirements-portal.yml
     ansible-galaxy install -r roles/requirements-portal.yml
     sed -i "s|git+https://${GIT_USER}:${GIT_PASSWORD}@github.com/|git+https://github.com/|g" roles/requirements-portal.yml
-    cat  roles/requirements-portal.yml
 }
 
 ###### end of required switches checking ###### 
@@ -205,17 +203,16 @@ ansible-galaxy install -r roles/requirements.yml
 #### Install additional roles
 case "${NODE_PROFILE}" in
     platform)
-        echo "galaxy_portal"
         galaxy_portal $GIT_USER $GIT_PASSWORD
         ;;
 esac
 
 ###### run ansible ######
-# ansible-playbook --connection=local $INSTALL_TMP_DIR/public-installation/ansible/playbooks/base/main.yml -i 127.0.0.1, $VERBOSE $NODE_ANSIBLE_TAGS \
-#     --extra-vars    "mysql_appuser_name=$MYSQL_APPUSER_NAME \
-#                     aparavi_platform_bind_addr=$APARAVI_PLATFORM_BIND_ADDR \
-#                     aparavi_platform_addr=$APARAVI_PLATFORM_ADDR \
-#                     node_meta_service_instance=$NODE_META_SERVICE_INSTANCE \
-#                     aparavi_parent_object=$APARAVI_PARENT_OBJECT_ID \
-#                     install_tmp_dir=$INSTALL_TMP_DIR \
-#                     $DOWNLOAD_URL_VAR"
+ansible-playbook --connection=local $INSTALL_TMP_DIR/public-installation/ansible/playbooks/base/main.yml -i 127.0.0.1, $VERBOSE $NODE_ANSIBLE_TAGS \
+    --extra-vars    "mysql_appuser_name=$MYSQL_APPUSER_NAME \
+                    aparavi_platform_bind_addr=$APARAVI_PLATFORM_BIND_ADDR \
+                    aparavi_platform_addr=$APARAVI_PLATFORM_ADDR \
+                    node_meta_service_instance=$NODE_META_SERVICE_INSTANCE \
+                    aparavi_parent_object=$APARAVI_PARENT_OBJECT_ID \
+                    install_tmp_dir=$INSTALL_TMP_DIR \
+                    $DOWNLOAD_URL_VAR"
