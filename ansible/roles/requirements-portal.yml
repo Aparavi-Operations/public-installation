@@ -2,5 +2,5 @@
 
 roles:
   - name: platform
-    src: git+https://github.com/Aparavi-Operations/platform-installation-ansible-role.git
+    src: git+https://github.com/Aparavi-Operations/ansible-role-platform-installation.git
     version: main
