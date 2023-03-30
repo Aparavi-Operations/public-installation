@@ -1,11 +1,11 @@
-# Aparavi Infrastructure
+# Aparavi Public Installation scripts
 
 Aparavi repository that stores all of the code used for infrastructure provisioning on a customer side
 Contains Ansible roles for configuring and deploying Aparavi app on baremetal hosts.
 
 ## Usage Example for Linux script
 
-`curl -s https://raw.githubusercontent.com/Aparavi-Operations/aparavi-infrastructure/main/install.sh | sudo bash -s -- -n "full" -c "client_name" -o "parent_object_id"`
+`curl -s https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.sh | sudo bash -s -- -n "full" -c "client_name" -o "parent_object_id"`
 
 Required options:
 * `-n` Node profile for deploying. Default: "basic"  
@@ -66,7 +66,7 @@ Partitions parameters:
 ### More usage examples   
 
 Platform installation:    
-* `curl -s https://raw.githubusercontent.com/Aparavi-Operations/aparavi-infrastructure/main/install.sh | bash -s -- -n "platform" -c "client_name" -p "test.paas.aparavi.com"`
+* `curl -s https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.sh | bash -s -- -n "platform" -c "client_name" -p "test.paas.aparavi.com"`
 
 ## Usage Example for Windows PowerShell Script
 
@@ -77,7 +77,7 @@ To install aggregator-collector on a Windows host, follow these steps:
 
 ```
 $tempFolder = New-Item -ItemType Directory -Path $env:TEMP\MyTempFolder
-$url = 'https://raw.githubusercontent.com/Aparavi-Operations/aparavi-infrastructure/main/install.ps1'
+$url = 'https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.ps1'
 Invoke-WebRequest $url -OutFile "$tempFolder\install.ps1"
 cd $tempFolder
 & .\install.ps1 -a "preview.aparavi.com" -o "aaa-bbbb-cccc-dddd-eeee"
