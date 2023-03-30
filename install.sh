@@ -10,17 +10,14 @@ Required options:
        appliance    - MySQL server + Redis Server + Aparavi Appliance
        platform     - MySQL server + Redis Server + Aparavi Platform
 
-       ############ lazy dba profile ############
-       mysql_only  - basic profile + MySQL server
-
     -c Client name. Example "Aparavi"
     -o Aparavi parent object ID. Example: "ddd-ddd-ddd-ddd"
-    -g github user to clone submodule with platform installation
-    -t github tocken to clone submodule with platform installation
+    -p Aparavi platform address. Default "test.paas.aparavi.com"
+    -g github user to clone private ansible-galaxy modules.
+    -t github tocken to clone private ansible-galaxy modules
 
 Additional options:
     -a Aparavi platform bind address. Default "preview.aparavi.com"
-    -p Aparavi platform address. Default "test.paas.aparavi.com"
     -l Logstash address. Default: "logstash.aparavi.com"
     -m Mysql AppUser name. Default: "aparavi_app"
 
@@ -149,9 +146,6 @@ function galaxy_portal {
             check_t_switch
             NODE_ANSIBLE_TAGS="-t mysql_server,redis_server,platform"
             ;;
-        mysql_only)
-            NODE_ANSIBLE_TAGS="-t mysql_server"
-            ;;
         *)
         echo "Error: please provide node profile (\"-n\" switch) from the list: basic, secure, monitoring, appliance, platform, full, mysql_only"
             usage
@@ -208,7 +202,7 @@ case "${NODE_PROFILE}" in
 esac
 
 ###### run ansible ######
-ansible-playbook --connection=local $INSTALL_TMP_DIR/public-installation/ansible/playbooks/base/main.yml -i 127.0.0.1, $VERBOSE $NODE_ANSIBLE_TAGS \
+ansible-playbook --connection=local $INSTALL_TMP_DIR/public-installation/ansible/playbooks/base/$NODE_PROFILE.yml -i 127.0.0.1, $VERBOSE $NODE_ANSIBLE_TAGS \
     --extra-vars    "mysql_appuser_name=$MYSQL_APPUSER_NAME \
                     aparavi_platform_bind_addr=$APARAVI_PLATFORM_BIND_ADDR \
                     aparavi_platform_addr=$APARAVI_PLATFORM_ADDR \

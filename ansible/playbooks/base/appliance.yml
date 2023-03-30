@@ -7,7 +7,6 @@
   roles:
     - mysql_server
     - aparavi_appagent
-    - platform
   vars:
     - node_meta_env: 'prod'
     - node_meta_service: 'aparavi'
