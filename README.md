@@ -16,9 +16,9 @@ Required options:
 * `-o` Parent object id provided by Aparavi. Example: "ddd-ddd-ddd-ddd"
 
 * if `-n platform` you should provide:
-    -p Aparavi platform address. Default "test.paas.aparavi.com"
-    -g github user to clone private ansible-galaxy modules.
-    -t github tocken to clone private ansible-galaxy modules
+  * `-p` Aparavi platform address. Default "test.paas.aparavi.com"
+  * `-g` github user to clone private ansible-galaxy modules
+  * `-t` github tocken to clone private ansible-galaxy modules
 
 Additional options:
 * `-a` Actual Aparavi platform URL to connect your AppAgent to. Default "preview.aparavi.com"
