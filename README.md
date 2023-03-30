@@ -35,14 +35,14 @@ Additional options:
 
 ## Directory Structure
 
-Shell script - the only file you need to run for Linux
-* [`install.sh`](install.sh)   
-Shell script - the only file you need to run for Windows
-* [`install.ps1`](install.sh)   
-Ansible roles used to deploy projects:
+Shell scripts:   
+* [`install.sh`](install.sh) - for Linux    
+* [`install.ps1`](install.sh) - for Windows   
+
+Ansible roles used to deploy projects:   
 * [`ansible/roles/`](ansible/roles/)   
 
-### More usage examples   
+## More usage examples   
 
 Platform installation:    
 * `curl -s https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.sh | bash -s -- -n "platform" -c "client_name" -p "test.paas.aparavi.com" -g github_user -t github_token` 
