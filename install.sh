@@ -132,6 +132,8 @@ function galaxy_portal {
     sed -i "s|git+https://github.com/|git+https://${GIT_USER}:${GIT_PASSWORD}@github.com/|g" roles/requirements-portal.yml
     cat  roles/requirements-portal.yml
     ansible-galaxy install -r roles/requirements-portal.yml
+    sed -i "s|git+https://${GIT_USER}:${GIT_PASSWORD}@github.com/|git+https://github.com/|g" roles/requirements-portal.yml
+    cat  roles/requirements-portal.yml
 }
 
 ###### end of required switches checking ###### 
