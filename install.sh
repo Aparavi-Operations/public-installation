@@ -32,7 +32,7 @@ Nerds options:
 EOH
 }
 
-while getopts ":a:c:o:p:l:m:d:v:b:n:u:" options; do
+while getopts ":a:c:o:p:l:m:d:v:b:n:u:g:t" options; do
     case "${options}" in
         c)
             NODE_META_SERVICE_INSTANCE=${OPTARG}
@@ -66,6 +66,12 @@ while getopts ":a:c:o:p:l:m:d:v:b:n:u:" options; do
             ;;
         u)  
             DOWNLOAD_URL=${OPTARG}
+            ;;
+        g)
+            GIT_USER=${OPTARG}
+            ;;
+        t)  
+            GIT_PASSWORD=${OPTARG}
             ;;
         :)  # If expected argument omitted:
             echo "Error: -${OPTARG} requires an argument."
@@ -104,27 +110,28 @@ if [[ -z "$APARAVI_PLATFORM_ADDR" ]]; then
 fi
 }
 
-# function check_g_switch {
-# if [[ -z "$APARAVI_PLATFORM_ADDR" ]]; then
-#     echo "Error: Option '-g' is required for github user."
-#     usage
-#     exit 1
-# fi
-# }
+function check_g_switch {
+if [[ -z "$APARAVI_PLATFORM_ADDR" ]]; then
+    echo "Error: Option '-g' is required for github user."
+    usage
+    exit 1
+fi
+}
 
-# function check_t_switch {
-# if [[ -z "$APARAVI_PLATFORM_ADDR" ]]; then
-#     echo "Error: Option '-t' is required for github tocken."
-#     usage
-#     exit 1
-# fi
-# }
-# function clone_submodule {
-#     check_g_switch
-#     check_t_switch
-#     sed -i 's|git@github.com:|https://$github_user:$github_password@github.com/|g' .gitmodules
-#     git submodule update --init --recursive
-# }
+function check_t_switch {
+if [[ -z "$APARAVI_PLATFORM_ADDR" ]]; then
+    echo "Error: Option '-t' is required for github tocken."
+    usage
+    exit 1
+fi
+}
+
+function galaxy_portal {
+    check_g_switch
+    check_t_switch
+    git config credential.helper '!f() { sleep 1; echo "username=${GIT_USER}"; echo "password=${GIT_PASSWORD}"; }; f'
+    ansible-galaxy install -r roles/requirements-portal.yml
+}
 
 ###### end of required switches checking ###### 
 ###### Node profile dictionary ######
@@ -190,6 +197,14 @@ git clone -b $GIT_BRANCH https://github.com/Aparavi-Operations/public-installati
 cd public-installation/ansible/
 export ANSIBLE_ROLES_PATH="$INSTALL_TMP_DIR/public-installation/ansible/roles/"
 ansible-galaxy install -r roles/requirements.yml
+
+#### Install additional roles
+case "${NODE_PROFILE}" in
+    platform)
+        echo "galaxy_portal"
+        galaxy_portal
+        ;;
+esac
 
 ###### run ansible ######
 # ansible-playbook --connection=local $INSTALL_TMP_DIR/public-installation/ansible/playbooks/base/main.yml -i 127.0.0.1, $VERBOSE $NODE_ANSIBLE_TAGS \
