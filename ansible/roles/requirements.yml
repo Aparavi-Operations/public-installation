@@ -1,0 +1,10 @@
+---
+
+roles:
+  - name: platform
+    src: git+https://github.com/Aparavi-Operations/platform-installation-ansible-role.git
+    version: main
+
+collections:
+  - name: community.general
+    version: 4.8.2
