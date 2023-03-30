@@ -13,9 +13,6 @@
     - node_meta_component: 'appagent'
     - node_meta_subcomponent: 'app'
     - node_meta_service_instance: 'new_client_name'
-    - ssh_client_password_login: true
-    - ssh_server_password_login: true
-    - sshd_authenticationmethods: "publickey password"
   tasks:
     - name: Flush handlers
       meta: flush_handlers
