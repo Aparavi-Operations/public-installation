@@ -5,21 +5,20 @@ Contains Ansible roles for configuring and deploying Aparavi app on baremetal ho
 
 ## Usage Example for Linux script
 
-`curl -s https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.sh | sudo bash -s -- -n "full" -c "client_name" -o "parent_object_id"`
+`curl -s https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.sh | sudo bash -s -- -n "appliance" -c "client_name" -o "parent_object_id"`
 
 Required options:
 * `-n` Node profile for deploying. Default: "basic"  
-  * `basic`                             - OS and SSH hardening included only
-  * `hardening_advanced`                - OS hardening + SSH hardening + advanced hardening + Wazuh agent + ClamAV agent
-  * `hardening_advanced_and_partitions` - OS hardening + SSH hardening + advanced hardening + Wazuh agent + ClamAV agent + partitions
-  * `monitoring`                        - basic profile + logs shipping agent + monitoring metrics, requires `-c` switch
-  * `default`                           - OS hardening + SSH hardening + Wazuh agent + ClamAV agent + MySQL server + Aparavi AppAgent + logs shipping agent + monitoring metrics
-  * `full_without_partitions`           - all featured above without partitions, requires both `-c` and `-o` switches
-  * `full`                              - all featured above, requires both `-c` and `-o` switches. The most secure version of the application installation. There may be server issues
-  * `mysql_only`                        - basic profile + MySQL server
+  * `appliance`  - MySQL server + Aparavi Appliance
+  * `platform`   - MySQL server + Redis Server + Aparavi Platform
 
 * `-c` Client name, assumed one deployment per client, in case of several deployments, just specify this like `new_client1_deployment1`, `new_client1_deployment2`, ..., `new_client1_deploymentN` per each deployment
 * `-o` Parent object id provided by Aparavi. Example: "ddd-ddd-ddd-ddd"
+
+* if `-n platform` you should provide:
+    -p Aparavi platform address. Default "test.paas.aparavi.com"
+    -g github user to clone private ansible-galaxy modules.
+    -t github tocken to clone private ansible-galaxy modules
 
 Additional options:
 * `-a` Actual Aparavi platform URL to connect your AppAgent to. Default "preview.aparavi.com"
@@ -36,37 +35,17 @@ Additional options:
 
 ## Directory Structure
 
-Shell script - the only file you need to run
-* [`install.sh`](install.sh)
-
+Shell script - the only file you need to run for Linux
+* [`install.sh`](install.sh)   
+Shell script - the only file you need to run for Windows
+* [`install.ps1`](install.sh)   
 Ansible roles used to deploy projects:
-* [`ansible/roles/`](ansible/roles/)
-
-# Playbook configuration
-
-These options can be set in the file `ansible/playbooks/base/main.yml`
-
-Additional variables:
-* `ssh_port` SSHD port. Default "22"
-* `ipv6_disable` Disable IPv6 or not. Default false
-* `wazuh_agent_full_version` Wazuh full version. Default "" (latest)
-* `mysql_version` Mysql server version. Default "0.8.22-1"
-* `disable_vfat` Disable vfat or not. Default true
-* `disable_forwarding` Disable ipv4 and ipv6 forwarding or not. Default true
-
-Partitions parameters:
-* `swap_size`    Swap size. Default "1g"
-* `var_size`     Size of `/var/` partition. Default "10g"
-* `vlog_size`    Size of `/var/log/` partition. Default:"5g"
-* `vlaudit_size` Size of `/var/log/audit/` partition. Default:"2g"
-* `home_size`    Size of `/home/` partition. Default:"5g"
-* `tmp_size`     Size of `/tmp/` partition. Default:"2g"
-* `vtmp_size`    Size of `/var/tmp/` partition. Default::"2g"
+* [`ansible/roles/`](ansible/roles/)   
 
 ### More usage examples   
 
 Platform installation:    
-* `curl -s https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.sh | bash -s -- -n "platform" -c "client_name" -p "test.paas.aparavi.com"`
+* `curl -s https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.sh | bash -s -- -n "platform" -c "client_name" -p "test.paas.aparavi.com" -g github_user -t github_token` 
 
 ## Usage Example for Windows PowerShell Script
 
@@ -75,7 +54,7 @@ To install aggregator-collector on a Windows host, follow these steps:
 1. Open Windows Terminal as an administrator.   
 2. Copy and paste the following code:   
 
-```
+```powershell
 $tempFolder = New-Item -ItemType Directory -Path $env:TEMP\MyTempFolder
 $url = 'https://raw.githubusercontent.com/Aparavi-Operations/public-installation/main/install.ps1'
 Invoke-WebRequest $url -OutFile "$tempFolder\install.ps1"

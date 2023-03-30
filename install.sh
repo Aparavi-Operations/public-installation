@@ -7,7 +7,7 @@ $0 -n "full" -c "client_name" -o "ddd-ddd-ddd-ddd" [additional_options]
 
 Required options:
     -n Node profile for deploying. Default: "appliance"
-       appliance    - MySQL server + Redis Server + Aparavi Appliance
+       appliance    - MySQL server + Aparavi Appliance
        platform     - MySQL server + Redis Server + Aparavi Platform
 
     -c Client name. Example "Aparavi"
