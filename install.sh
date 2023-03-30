@@ -127,8 +127,8 @@ fi
 }
 
 function galaxy_portal {
-    # git config credential.helper '!f() { sleep 1; echo "username=${GIT_USER}"; echo "password=${GIT_PASSWORD}"; }; f'
-    git config credential.https://github.com.username ${GIT_USER}
+    sed -i 's|git+https://github.com/|git+https://${GIT_USER}:${GIT_PASSWORD}@github.com/|g' roles/requirements-portal.yml
+    cat  roles/requirements-portal.yml
     ansible-galaxy install -r roles/requirements-portal.yml
 }
 
